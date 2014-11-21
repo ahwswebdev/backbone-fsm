@@ -107,8 +107,9 @@ FSM.resetCurrentState = ->
     @_currentState = null
 
 FSM.transitionTo = (state, callback = ->) ->
-    if @isValidTransition(@_currentState, state)
-        @makeTransition @getTransitionFromTo(@_currentState, state).name, =>
+    transition = @getTransitionFromTo(@_currentState, state)
+    if transition
+        @makeTransition transition.name, =>
             @_currentState = state
             callback()
     else
