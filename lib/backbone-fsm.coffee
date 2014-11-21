@@ -107,9 +107,12 @@ FSM.resetCurrentState = ->
     @_currentState = null
 
 FSM.transitionTo = (state, callback = ->) ->
-    @makeTransition @getTransitionFromTo(@_currentState, state).name, =>
-        @_currentState = state
-        callback()
+    if @isValidTransition(@_currentState, state)
+        @makeTransition @getTransitionFromTo(@_currentState, state).name, =>
+            @_currentState = state
+            callback()
+    else
+        return false
     
 FSM.addState = (state) ->
     if state not in @_states then @_states.push state
